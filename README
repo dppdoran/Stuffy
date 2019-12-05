@@ -1,0 +1,40 @@
+What is Stuffy?
+
+A Python library that allows programs to send a dictionary from one instance of a Stuffy-enabled program to another
+(remote) instance using only email addresses for routing.  The only restriction placed the data sent is that it must be
+possible to convert it to a JSON document.  This still allows Stuffy-enabled applications to maintain a great deal of
+control over what can be sent since almost anything can be sent in a JSON document.  Such a dictionary will be referred
+to the "Dictionary Of Stuff" or a 'dict_of_stuff' for short.  The dict_of_stuff is actually transferred by adding it to
+a Stuffy Object.  This object includes addressing information and other status info.
+
+The objects travel between programs via a mongoDB database. The basic idea is as follows:
+> The sending (node) program does the following:
+>> Adds the dict_of_stuff to a StuffyObject (SO).
+>> Adds the email addresses of the recipients who will receive a copy of the SO.
+>> Writes the SO to the "post_office" data collection of the mongoDB database.
+> The sentinel program then does the following:
+>> Reads the new SO.
+>> Sets the "delivered" field to True
+>> Writes the modified SO into the "home" collections of all the recipients defined in the SO.
+>> Updates the SO in the "post_office" collection so that the "delivered" field is set to True.
+> The receiving (node) program does the following:
+>> Reads the SO from it's "home" collection.
+>> Sets the "already_read" field of the SO in the collection to True
+
+The sentinel program will delete SO's in the "post_office" collection once they have reached a configured age.  The
+receiving program will be able to delete messages from its own "home" collection.
+
+The API:
+from stuffy import StuffyNode, StuffyObject
+help(StuffyNode)
+help(StuffyObject)
+
+Restrictions:
+1. It must be possible to convert the dictionary to a JSON document.
+2. Dictionary keys that are not strings will be converted to strings.  This is a restriction imposed by the PyMongo
+library.
+
+Definitions:
+Dictionary Of Stuff (dos): A Python dictionary that can be converted to a JSON document as defined by RFC 7159
+(https://tools.ietf.org/html/rfc7159.html)
+

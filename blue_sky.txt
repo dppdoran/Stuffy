@@ -1,0 +1,69 @@
+What is the vision?
+
+Problems are resolved by multiple entities (machine and human) generating information that is eventually distilled
+down into a solution.  Trying to force-fit this into a database is a mistake.  Systems like SalesForce manage incidents
+via cases.  Support personnel use the case details to document what they are doing via
+
+I believe that problems are best resolved by reducing the amount of time people spend trying to document what they are
+doing about resolving an issue.  If you don't like documenting what is going on whilst working on an issue and just
+want to work on resolving the problem at hand, then Stuffy provides what you want.
+
+Before a problem is resolved the following usually happens:
+> The issue is reported via either a machine generating an alert or somebody reporting "a problem".
+> People discuss the problem by way of any combination of email, phone and database updates.
+> Very often the exact nature of the issue is not documented until long after the first report of the issue.
+> The problem can be resolved very quickly by either an experienced person or via the fortuitous discovery of a KB
+article that exactly describes the problem at hand and the steps required to resolve it.
+> More often than not this does not happen.  Sometimes days can pass before the problem is correctly defined.
+> Even after this point, the problem is not always properly understood by all parties and confusion continues.
+> Many problems are actually a cluster of problems that require separate actions to be take in order to resolve them.
+> Often the customer perception is that nobody understands what is going on and that nothing is being done, or has been
+done, to resolve the problem.  This misconception can even effect cases that are months old even though the original
+issue was resolved.
+
+I believe that the main reason for this confusion is due to the way we report and work on problems.  We should not be
+using standard database updates to manage problems.  We should use messaging between the individuals that results in the
+accumulation of a set of problem descriptions and associated solutions.  The focus should be on the understanding of
+the problem by way of a shared problem description.  How we got to the current understanding is not of primary
+importance, although it is good to record actions taken.  What is really important is a shared, and agreed upon,
+understanding of the issue(s).  If you don't understand the problem you are going to have to resolve it by "just trying
+things".
+
+In a nutshell:
+> A system that focuses on problems and makes it easy for people to work on them.
+
+
+The Incident Reporting System and the KB system should be the same system:
+> Problems morph into solutions.
+> Your KB and incident reporting system are essentially one and the same.
+
+Types of problems:
+> Simple: Solved by following manual or KB article
+> Cluster: Many individual problems.
+> Complex: Long running, and unclear.  Usually require collaboration between departments and other companies.
+> Complex-Cluster:  The worst type of problem.  Often referred to as a "cluster-fcuk".
+
+
+What the system goals are:
+> System must be aimed at easing communication between departments/companies
+> System must be as easy to use as email.  The more like email, the better.
+> Must be massively scalable in order to handle IoT type work-loads, but still keeping it easy for people to use.
+
+
+The need for channels:
+The idea behind Stuffy is that it enables programs to send information, in the form of dictionaries, to each other
+programs. The keyword here is "programs".  This suggests that more than one program will be written to utilize the
+functionality of Stuffy.  However, two different Stuffy-enabled programs running on the same computer will almost
+certainly be using the same email address, the users email address, to route messages.  In order to avoid programs
+reading each others data the need for some form of "Stuffy Channel" becomes obvious.  Hence, the product will be
+designed to allow the selection of a channel when setting up a "Stuffy Node.
+
+The need for a Stuffy Robot:
+The idea is that most sends will result in the successful triggering of a delivery function being called that will then
+place the SOs in the read_collections of the recipients.  However, there is an outside chance that this could fail
+every now and again.  Unlikely, but not impossible.  Hence, the creation of a Stuffy Robot to check the write collection
+and deliver any undelivered SOs (or report an error) is considered a good idea.  This is an example of the age-old
+Irish "To be sure, to be sure" approach to life.  The robot should also delete/archive all delivered messages.  This
+approach also has the side-effect of making the send code simpler.
+
+It should also be possible for a StuffyNode to send SOs that are actually commands/requests for a robot to do some work.
